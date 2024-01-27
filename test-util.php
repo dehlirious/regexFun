@@ -23,8 +23,7 @@ function generateNestedRegex($additionalLayers) {
     $basePattern = "{[^{}]*}";
 
     // Pattern for the recursive part
-	//two, so adding it again would be four I believe, but I'm not going to correct it. 50 = 100 , but I'm still saying its 50 layers deep
-    $recursivePart = "{(?:[^{}]|{[^{}]*})*}";
+	$recursivePart = "{(?:[^{}]|{[^{}]*})*}";
 
 
     // Add additional layers of nesting
