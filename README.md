@@ -10,6 +10,15 @@ Used to match nested curly's
 {(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*} < Four layers
 {(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*})*} < Five layers
 ```
+```
+    {: An opening curly brace.
+    (?:[^{}]|{[^{}]*})*: A non-capturing group that matches:
+        [^{}]: Any character that is not a curly brace.
+        |: OR
+        {[^{}]*}: A pair of curly braces containing any characters that are not curly braces (no nesting).
+    }: A closing curly brace.
+```
+This is a form of faux recursion using regex, as regex engines generally do not support true recursion or stack-based memory, making it challenging to match arbitrarily nested structures.
 
 ## generateNestedJS
 
@@ -51,8 +60,6 @@ foreach ($performanceTimings as $layers => $timing) {
 ## Results
 
 This was done using preg_match_all, php8.3
-
-Warning: Data may be wrong, who knows. But these were the results.
 
 When there are more regex layers than function layers, it seems to go rather quickly.
 The data has roughly shown that more function layers with smaller regex layer counts == slower processing times.
