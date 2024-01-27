@@ -17,7 +17,6 @@ function generateNestedRegex($additionalLayers) {
 $numberOfAdditionalLayers = 15;
 $regexPattern = generateNestedRegex($numberOfAdditionalLayers);
 echo $regexPattern. "\n\n\n\n\n\n\n<br/>\n";
-//Designed for usage in this regex (async\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*{((?:[^{}]|{(?:[^{}]|{[^{}]*})*})*?)}
 
 // Measures the performance of regex patterns with increasing layers of nesting
 function measureRegexPerformance($testString, $maxLayers, $iterationsPerLayer) {
