@@ -13,7 +13,7 @@ Below is an illustration of how layers are added to create increasingly complex 
 {(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*})*} < Five layers
 ```
 ```
-((?:[^{}]|{(?:[^{}]|{[^{}]*})*})*?)
+{((?:[^{}]|{(?:[^{}]|{[^{}]*})*})*?)}
 ```
 The basic element of the structure is explained as follows:
 ```php
@@ -25,6 +25,8 @@ The basic element of the structure is explained as follows:
 }: A closing curly brace.
 ```
 Through these tools and the outlined method, users can create and examine the intricacies and performance implications of regex patterns dealing with deeply nested structures.
+Please note: This recursive regex function is more for testing than for use. 
+I have issues with it personally, other than when using the base version
 
 ## generateNestedJS
 
