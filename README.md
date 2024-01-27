@@ -2,6 +2,15 @@
 
 This repository contains a set of PHP and JavaScript tools designed for generating and measuring the performance of a deeply nested curly regex I use. Tools for creating nested regex patterns, measuring the performance impact of regex execution, and generating deeply nested JavaScript functions to test the regex with.
 
+Used to match nested curly's
+```php
+{[^{}]*} < One layer
+{(?:[^{}]|{[^{}]*})*} < Two layers
+{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*} < Three layers
+{(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*} < Four layers
+{(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*})*} < Five layers
+```
+
 ## generateNestedJS
 
 A JavaScript function that generates a function with a deeply nested structure, incorporating various control structures like if, while, do, and foreach.
@@ -13,7 +22,7 @@ $testString = generateNestedJS(200);
 
 ## generateNestedRegex
 
-A PHP function that generates a regex pattern with a specified number of nested curly brace layers. This function is particularly useful for testing or analyzing code with deeply nested structures.
+A PHP function that generates a regex pattern with a specified number of nested curly brace layers.
 
 ### Usage
 
@@ -41,10 +50,13 @@ foreach ($performanceTimings as $layers => $timing) {
 
 ## Results
 
-This was done using preg_match_all
+This was done using preg_match_all, php8.3
+
+Warning: Data may be wrong, who knows. But these were the results.
 
 When there are more regex layers than function layers, it seems to go rather quickly.
 The data has roughly shown that more function layers with smaller regex layer counts == slower processing times.
+The data also demonstrated that regex finished faster with more recursive layers, when there was a large quantity of function layers.
 
 Note: After 62 layers, it seemed to stop matching.
 `preg_match_all(): Compilation failed: parentheses are too deeply nested at offset 2503`
