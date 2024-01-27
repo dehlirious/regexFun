@@ -12,7 +12,10 @@ Below is an illustration of how layers are added to create increasingly complex 
 {(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*} < Four layers
 {(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*})*} < Five layers
 ```
-Each element of the structure is explained as follows:
+```
+((?:[^{}]|{(?:[^{}]|{[^{}]*})*})*?)
+```
+The basic element of the structure is explained as follows:
 ```php
 {: An opening curly brace.
 (?:[^{}]|{[^{}]*})*: A non-capturing group that matches:
