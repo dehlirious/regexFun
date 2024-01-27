@@ -1,8 +1,10 @@
 # Deeply Nested Structure Generator
 
-This repository contains a set of PHP and JavaScript tools designed for generating and measuring the performance of a deeply nested curly regex I use. Tools for creating nested regex patterns, measuring the performance impact of regex execution, and generating deeply nested JavaScript functions to test the regex with.
+This repository hosts a collection of PHP tools adept at crafting and evaluating the performance of deeply nested curly regex patterns. It includes facilities for constructing nested regex expressions, gauging the performance repercussions of executing these regex patterns, and generating intricately nested JavaScript functions as test subjects for the regex.
 
-Used to match nested curly's
+The methodology employs a form of synthetic recursion within regex patterns, a necessary approach since regex engines typically lack genuine recursion capabilities or stack-based memory. This limitation makes the task of matching structures with arbitrary levels of nesting particularly challenging.
+
+Below is an illustration of how layers are added to create increasingly complex nested structures:
 ```php
 {[^{}]*} < One layer
 {(?:[^{}]|{[^{}]*})*} < Two layers
@@ -10,15 +12,16 @@ Used to match nested curly's
 {(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*} < Four layers
 {(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*})*})*} < Five layers
 ```
+Each element of the structure is explained as follows:
+```php
+{: An opening curly brace.
+(?:[^{}]|{[^{}]*})*: A non-capturing group that matches:
+    [^{}]: Any character that is not a curly brace.
+    |: OR
+    {[^{}]*}: A pair of curly braces containing any characters that are not curly braces (no nesting).
+}: A closing curly brace.
 ```
-    {: An opening curly brace.
-    (?:[^{}]|{[^{}]*})*: A non-capturing group that matches:
-        [^{}]: Any character that is not a curly brace.
-        |: OR
-        {[^{}]*}: A pair of curly braces containing any characters that are not curly braces (no nesting).
-    }: A closing curly brace.
-```
-This is a form of faux recursion using regex, as regex engines generally do not support true recursion or stack-based memory, making it challenging to match arbitrarily nested structures.
+Through these tools and the outlined method, users can create and examine the intricacies and performance implications of regex patterns dealing with deeply nested structures.
 
 ## generateNestedJS
 
@@ -31,7 +34,7 @@ $testString = generateNestedJS(200);
 
 ## generateNestedRegex
 
-A PHP function that generates a regex pattern with a specified number of nested curly brace layers.
+A PHP function designed to craft regex patterns featuring user-defined levels of nested curly braces.
 
 ### Usage
 
@@ -57,39 +60,40 @@ foreach ($performanceTimings as $layers => $timing) {
 
 ```
 
-## Results
+## Performance Visualizations
 
-This was done using preg_match_all, php8.3
+This study, conducted using preg_match_all on PHP 8.3, explores the relationship between the depth of nested structures in functions and regex patterns, and their impact on processing times.
 
-When there are more regex layers than function layers, it seems to go rather quickly.
-The data has roughly shown that more function layers with smaller regex layer counts == slower processing times.
-The data also demonstrated that regex finished faster with more recursive layers, when there was a large quantity of function layers.
+Key findings include:
 
-Note: After 62 layers, it seemed to stop matching.
-`preg_match_all(): Compilation failed: parentheses are too deeply nested at offset 2503`
+ - Performance Dynamics: When regex complexity exceeds that of function layers, processing tends to be quicker. Conversely, a higher count of function layers paired with fewer regex layers results in slower processing times.
+ - Optimal Layer Ratio: Interestingly, regex processing speeds up with more recursive layers, especially noticeable with a high count of function layers.
+ - Limitation Observed: Beyond 62 layers, regex matching ceased, indicated by a compilation error due to excessively nested parentheses.
 
-These pictures will only show 50 layers of regex unless otherwise stated.
 
-### 100 layer function, 40 layer regex, 50x times
+### 100-Layer Function vs. 40-Layer Regex (50 iterations):
 ![3GITCapture](https://github.com/dehlirious/regexFun/assets/25449483/00790b21-6db3-4dd1-a15c-845d19d5f664)
 
 
-### A 40 layer function, tested at 50 layers of regex, 50x times
+### 40-Layer Function vs. 50-Layer Regex (50 iterations):
 ![0GITCapture](https://github.com/dehlirious/regexFun/assets/25449483/b2060ffd-d82c-4f72-860b-eb39769fd736)
 
 
 This demonstrates that it slopes off near the end, when there are more regex layers than function layers.
 
-### A 400 layer function, 50x times
+### 400-Layer Function vs. 50-Layer Regex (50 iterations):
 ![1GITCapture](https://github.com/dehlirious/regexFun/assets/25449483/54150cd3-1e6d-47ea-b042-a5a0c17814f4)
 
 
 This demonstrates that only having two layers of regex but a large quantity of function layers, takes up a LOT of time.
 
-### 200 layer function, 50x times
+### 200-Layer Function vs. 50-Layer Regex (50 iterations):
 ![5GITCapture](https://github.com/dehlirious/regexFun/assets/25449483/fcbb5d3e-f04f-4b25-a442-cfd3a9a2459c)
 
-Overall, do with the data what you can. 
 
-### 2000 layer function, 50x times
+### 2000-Layer Function vs. 50-Layer Regex (50 iterations):
 ![6GITCapture](https://github.com/dehlirious/regexFun/assets/25449483/abbb31ed-37a7-4491-b2a6-cefa9889169f)
+
+The visual aids aim to provide a clearer understanding of the dynamics.
+
+Consider these insights carefully when working with nested structures in regex and functions.
